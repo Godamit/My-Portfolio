@@ -1,0 +1,248 @@
+:root {
+    --bg: #0f0f0f;
+    --text: #fff;
+    --card-bg: #1c1c1c;
+    --btn-bg: #1e1e1e;
+    --btn-hover-bg: #fff;
+    --btn-hover-text: #000;
+    scroll-behavior: smooth;
+  }
+  
+  /* Dark mode toggle */
+  body.dark-mode {
+    --bg: #f1f1f1;
+    --text: #111;
+    --card-bg: #fff;
+    --btn-bg: #ddd;
+    --btn-hover-bg: #000;
+    --btn-hover-text: #fff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; /* hides the system cursor everywhere */
+
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+    
+      cursor: none; /* hides the system cursor everywhere */
+    
+    
+  }
+  
+  main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  main h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  main p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+  
+  #modeToggle {
+    border-radius: 30px;
+    margin-left: 20px;
+    width: 50px;
+  }
+
+  #modeToggle:hover {
+    background:black;
+  }
+  
+  .btn {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--btn-bg);
+    color: var(--text);
+    border: 0px solid #444;
+    /* cursor: pointer; */
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    background: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    transform: scale(1.05);
+  }
+  
+  section {
+    padding: 4rem 2rem;
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #444;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+  }
+  
+  .projects, .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border: 1px solid #333;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+  }
+  
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #111;
+    border-top: 1px solid #333;
+  }
+  
+  footer p {
+    opacity: 0.6;
+    font-size: 0.9rem;
+    color: lightgrey;
+  }
+
+  .cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--btn-hover-bg);
+    border-radius: 50%;
+    background: transparent;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+  }
+  
+  
+  
+  
+
+  .loginBtn{
+    margin-top: 25px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 150px;
+    background-color: var(--bg);
+    position: absolute;
+    right: 0;
+    border: none;
+    outline: none;
+    color: var(--text);
+  }
+
+
+
+  .login-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 250px;
+    height: 250px;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .login-form input,
+  .login-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--card-bg);
+    color: var(--text);
+    width: 250px;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+  
+  /* Input hover + focus */
+  .login-form input:hover,
+  .login-form input:focus {
+    background-color: #2a2a2a;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Button style */
+  .login-form button {
+    background: var(--btn-bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .login-form button:hover {
+    background: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+  
+  /* Button pressed effect */
+  .login-form button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Show login animation */
+  .login-form.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+
+  .lowernav{
+    width: 50vw;
+    border-bottom: solid 1px white;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    
+  }
+
+  .lowernav ul{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    font-weight: bold;
+    list-style: none;
+  }
