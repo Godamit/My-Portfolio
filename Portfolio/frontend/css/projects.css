@@ -1,0 +1,110 @@
+:root {
+    --bg: #0f0f0f;
+    --text: #fff;
+    --card-bg: #1c1c1c;
+    --btn-bg: #1e1e1e;
+    --btn-hover-bg: #fff;
+    --btn-hover-text: #000;
+    scroll-behavior: smooth;
+  }
+  
+  /* Dark mode toggle */
+  body.dark-mode {
+    --bg: #f1f1f1;
+    --text: #111;
+    --card-bg: #fff;
+    --btn-bg: #ddd;
+    --btn-hover-bg: #000;
+    --btn-hover-text: #fff;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none; /* hides the system cursor everywhere */
+
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+    
+      cursor: none; /* hides the system cursor everywhere */
+    
+    
+  }
+
+
+
+/* Optional cursor if using custom one */
+.cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--btn-hover-bg);
+    border-radius: 50%;
+    background: transparent;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+  }
+  
+
+
+
+
+
+.projects-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 280px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #333;
+  }
+
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+  }
+
+  .project-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .project-card p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+  }
+
+  .project-card a {
+    margin-top: 1rem;
+    display: inline-block;
+    color: #4caf50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .project-card a:hover {
+    text-decoration: underline;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-top: 2rem;
+  }
