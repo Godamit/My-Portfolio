@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat UI</title>
+  <link rel="stylesheet" href="./css/chat.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    
+  </style>
+</head>
+<body>
+  <div id="cursor" class="cursor"></div>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <span><i class="fas fa-comments"></i> Chat with Bot</span>
+      <i class="fas fa-sync-alt" onclick="clearChat()" style="cursor: pointer;"></i>
+    </div>
+
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script  src="./js/chat.js">
+   
+  </script>
+</body>
+</html>
