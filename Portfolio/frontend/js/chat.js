@@ -1,70 +1,80 @@
+/*****************
+ *  Cursor blob  *
+ *****************/
 const cursor = document.getElementById("cursor");
-window.addEventListener("mousemove", (e) => {
+window.addEventListener("mousemove", e => {
   cursor.style.left = `${e.clientX}px`;
-  cursor.style.top = `${e.clientY}px`;
+  cursor.style.top  = `${e.clientY}px`;
 });
 
+/*****************
+ *  Chat logic   *
+ *****************/
+const chatBox   = document.getElementById("chatMessages");
+const input     = document.getElementById("chatInput");
+const serverURL = "../backend/chat.php";
+
+/*— Send when button clicked —*/
 function sendMessage() {
-  const input = document.getElementById("chatInput");
-  const message = input.value.trim();
-  if (!message) return;
-
-  const chatBox = document.getElementById("chatMessages");
-  const serverPath = "../backend/chat.php";
-
-  // Add user's message to chat
-  const userMsg = document.createElement("div");
-  userMsg.className = "message sent";
-  userMsg.innerText = message;
-  chatBox.appendChild(userMsg);
-  chatBox.scrollTop = chatBox.scrollHeight;
-
+  const raw = input.value.trim();
+  if (!raw) return;
+  appendUserMsg(raw);
   input.value = "";
-
-  // Send message to PHP backend
-  const messageData = new FormData();
-  messageData.append("message", message);
-
-  fetch(serverPath, {
-      method: "POST",
-      body: messageData
-  })
-  .then(response => response.json())
-  .then(data => {
-      const reply = data.reply || "Sorry, I didn't get that.";
-      
-      const botMsg = document.createElement("div");
-      botMsg.className = "message received";
-      chatBox.appendChild(botMsg);
-
-      let i = 0;
-
-      setTimeout(() => {
-        let i = 0;
-        const typeWriter = () => {
-            if (i < reply.length) {
-                botMsg.textContent += reply.charAt(i); // ✅ use textContent here
-                i++;
-                setTimeout(typeWriter, 30); // Typing speed
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        };
-        typeWriter();
-    }, 600); 
-
-      // typeWriter();
-  })
-  .catch(error => {
-      console.error("Error:", error);
-      const errorMsg = document.createElement("div");
-      errorMsg.className = "message received";
-      errorMsg.innerText = "BOT: Something went wrong!";
-      chatBox.appendChild(errorMsg);
-  });
+  askBackend(raw);
 }
 
+/*— Send on Enter —*/
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
+/*— Helpers —*/
+function appendUserMsg(text) {
+  const div = document.createElement("div");
+  div.className = "message sent";
+  div.textContent = text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
+function appendBotMsg_markdownTyping(markdown) {
+  const div = document.createElement("div");
+  div.className = "message received";
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  /* type-writer with markdown → html on each step */
+  let i = 0, buffer = "";
+
+  (function type() {
+    if (i < markdown.length) {
+      buffer += markdown.charAt(i++);
+      div.innerHTML = marked.parse(buffer);   // convert & render
+      chatBox.scrollTop = chatBox.scrollHeight;
+      setTimeout(type, 25);                   // typing speed (ms)
+    }
+  })();
+}
+
+function askBackend(message) {
+  const body = new FormData();
+  body.append("message", message);
+
+  fetch(serverURL, { method: "POST", body })
+    .then(res => res.json())
+    .then(({ reply }) => {
+      appendBotMsg_markdownTyping(reply || "_(no reply)_");
+    })
+    .catch(err => {
+      console.error(err);
+      appendBotMsg_markdownTyping("**BOT:** Something went wrong!");
+    });
+}
+
+/*— Clear chat button —*/
 function clearChat() {
-  document.getElementById("chatMessages").innerHTML = "";
+  chatBox.innerHTML = "";
 }

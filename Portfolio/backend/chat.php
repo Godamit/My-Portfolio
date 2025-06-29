@@ -1,36 +1,64 @@
 <?php
 header("Content-Type: application/json");
 
-$message = $_POST['message'] ?? '';
-$response = [];
+// Your API key from https://makersuite.google.com/app/apikey
+$GEMINI_API_KEY = "AIzaSyDfj6e8aNDZ0GX-vQCgfjByX2hJ0u_pywQ"; // Replace with your actual key
 
+$message = $_POST['message'] ?? '';
 if (!$message) {
-    $response['reply'] = "No message received.";
-    echo json_encode($response);
+    echo json_encode(["reply" => "No message received."]);
     exit;
 }
 
-$normalized = strtolower($message);
+// Gemini REST expects 'contents' format
+$payload = [
+    "contents" => [
+        [
+            "role" => "user",
+            "parts" => [
+                ["text" => "You're my smart, friendly buddy. Talk casually and make it short replies, like a human friend who knows a lot. Be helpful, but not too formal."]
+            ]
+        ],
+        [
+            "role" => "user",
+            "parts" => [
+                ["text" => $message]
+            ]
+        ]
+    ]
+];
 
-// === Pattern Matching ===
-if (preg_match('/\b(hello|hi|hey|yo|hii|hiii)\b/i', $message)) {
-    $response['reply'] = "Hey there! How can I assist you today?";
-} elseif (preg_match('/\bhow are you\b/i', $message)) {
-    $response['reply'] = "I'm just code, but feeling helpful! How about you?";
-} elseif (preg_match('/\b(joke|funny)\b/i', $message)) {
-    $response['reply'] = "Why don’t robots ever get tired? Because they recharge! ⚡";
-} elseif (preg_match('/\b(time|date|day)\b/i', $message)) {
-    $response['reply'] = "Current server time is: " . date('l, Y-m-d H:i:s');
-} elseif (preg_match('/\b(who|what) are you\b/i', $message)) {
-    $response['reply'] = "I'm your friendly AI assistant 🤖 built in PHP. Here to chat and help!";
-} elseif (preg_match('/\b(thank(s)?|thank you)\b/i', $message)) {
-    $response['reply'] = "You're welcome! 😊";
-} elseif (preg_match('/\bbye\b/i', $message)) {
-    $response['reply'] = "Goodbye! 👋 Have a great day!";
-} else {
-    // Default response
-    $response['reply'] = "I heard you say: \"$message\" 🤔. Can you elaborate?";
+$model = "gemini-2.5-flash";
+
+// 🔥 Use latest Gemini model:
+// $model = "gemini-2.5-pro"; // or "gemini-2.5-flash" for faster/cheaper
+$url = "https://generativelanguage.googleapis.com/v1/models/{$model}:generateContent?key={$GEMINI_API_KEY}";
+
+// Send POST request to Gemini API
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
+    CURLOPT_POSTFIELDS => json_encode($payload),
+]);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// Decode the JSON
+$responseData = json_decode($response, true);
+
+if ($httpCode >= 400 || !$responseData) {
+    $errorMsg = $responseData['error']['message'] ?? 'Unknown Gemini error';
+    echo json_encode([
+        "reply" => "Gemini API error: $errorMsg",
+        "http_code" => $httpCode
+    ]);
+    exit;
 }
 
-echo json_encode($response);
-?>
+// Extract Gemini's reply
+$reply = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? '(no reply)';
+echo json_encode(["reply" => $reply]);

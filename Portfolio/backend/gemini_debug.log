@@ -1,0 +1,46 @@
+Array
+(
+    [request] => Array
+        (
+            [contents] => Array
+                (
+                    [0] => Array
+                        (
+                            [role] => user
+                            [parts] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [text] => "What's the capital of Japan?"
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [response_raw] => {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+    "status": "NOT_FOUND"
+  }
+}
+
+    [response_parsed] => Array
+        (
+            [error] => Array
+                (
+                    [code] => 404
+                    [message] => models/gemini-pro is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+                    [status] => NOT_FOUND
+                )
+
+        )
+
+    [http_code] => 404
+    [error] => 
+)
